@@ -11,6 +11,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'bling/vim-airline'
 Plugin 'yurifury/hexHighlight'
 Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-fugitive'
 call vundle#end()
 
 filetype plugin indent on
