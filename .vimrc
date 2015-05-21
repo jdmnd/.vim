@@ -3,11 +3,10 @@ filetype off
 
 " set runtime path to include vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
 
 " plugins managed by vundle
+call vundle#begin()
 Plugin 'gmarik/Vundle.vim' " (required for vundle)
-
 Plugin 'godlygeek/tabular'
 Plugin 'bling/vim-airline'
 Plugin 'yurifury/hexHighlight'
@@ -35,6 +34,7 @@ set autoindent                  " Keep the indentation when creating a new line
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 set list
 
+
 " Strip trailing whitespace
 autocmd FileType asm,c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> | call StripTrailingWhitespace()
 function! StripTrailingWhitespace()
@@ -54,7 +54,6 @@ set mouse=a
 
 " enable syntax menu functions
 " source /usr/share/vim/vim74/synmenu.vim
-
 
 " --- Mappings ---
 
@@ -118,8 +117,7 @@ set softtabstop=2    " Let backspace delete indent
 set smarttab         " make tab insert indents instead of tabs at the beginning of a line
 set expandtab        " always uses spaces instead of tab characters
 
-
-" --- Syntax ---
+" --- Syntax Highlighting ---
 let asmsyntax='armasm'
 let filetype_inc='armasm'
 
@@ -175,3 +173,27 @@ function! InitializeDirectories()
   endfor
 endfunction
 call InitializeDirectories()
+
+" --- Plugin Settings ---
+
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" Airline
+"
+"Fancy arrow symbols, requires a patched font
+"let g:airline_powerline_fonts = 1
+
+" Show PASTE if in paste mode
+let g:airline_detect_paste=1
+
+" Show airline for tabs too
+let g:airline#extensions#tabline#enabled = 1
+
