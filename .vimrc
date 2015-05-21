@@ -10,7 +10,7 @@ Plugin 'gmarik/Vundle.vim' " (required for vundle)
 Plugin 'godlygeek/tabular'
 Plugin 'bling/vim-airline'
 Plugin 'yurifury/hexHighlight'
-
+Plugin 'scrooloose/syntastic'
 call vundle#end()
 
 filetype plugin indent on
