@@ -83,13 +83,12 @@ vnoremap . :normal .<CR>
 nnoremap * m`*``
 
 
-" Set the colourscheme
+" --- Colour Scheme ---
 colorscheme liquidcarbon
 set background=dark
 syntax on
 
-
-" Statusbar
+" --- Status Bar ---
 set laststatus=2
 set statusline=%<%f\                     " Filename
 set statusline+=%w%h%m%r                 " Options
