@@ -11,7 +11,24 @@ Plugin 'godlygeek/tabular'
 Plugin 'bling/vim-airline'
 Plugin 'yurifury/hexHighlight'
 Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/nerdtree'
+
+"Git
 Plugin 'tpope/vim-fugitive'
+
+" Haskell
+Plugin 'raichoo/haskell-vim'
+"Plugin 'enomsg/vim-haskellConcealPlus'
+Plugin 'eagletmt/neco-ghc'
+Plugin 'eagletmt/ghcmod-vim'
+Plugin 'lukerandall/haskellmode-vim'
+Plugin 'Twinside/vim-hoogle'
+"Plugin 'travitch/hasksyn'
+
+Plugin 'Shougo/vimproc'
+Plugin 'kien/ctrlp.vim.git'
+Plugin 'tikhomirov/vim-glsl.git'
+Plugin 'emnh/taglist.vim'
 call vundle#end()
 
 filetype plugin indent on
@@ -25,16 +42,22 @@ set showcmd
 set incsearch
 set hlsearch
 set nospell
+set ignorecase
+set hidden                      " Allow modified buffers to be hidden without unloading
 set nowrap                      " Don't wrap long lines
 set showmode                    " Display the current mode
 set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
 set splitright                  " Puts new vsplit windows to the right of the current
 set splitbelow                  " Puts new split windows to the bottom of the current
 set autoindent                  " Keep the indentation when creating a new line
+set smartindent                 " Syntax-based indenting
 
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 set list
 
+" GUI Settings
+set guifont="Sauce\ Code\ Powerline:h11"
+set guioptions=gm
 
 " Strip trailing whitespace
 autocmd FileType asm,c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> | call StripTrailingWhitespace()
@@ -64,12 +87,14 @@ let mapleader = ','
 nnoremap Y y$
 
 " Hide search highlighting with ,/
-nmap <silent> <leader>/ :nohlsearch<CR>
+nmap <silent> <leader>/ :nohlsearch<CR>:SyntasticReset<cr>
 
-" Map H and L to move between tabs. Conflicts with ability to move to
-" bottom/top of screen
-map <S-H> gT
-map <S-L> gt
+" Map H and L to move between buffers. Conflicts with ability to move to
+" bottom/top of screen, so first remap those to gh, gl.
+nnoremap gh <S-H>
+nnoremap gl <S-L>
+nnoremap <S-H> :bprev<CR>
+nnoremap <S-L> :bnext<CR>
 
 " Visual shifting (does not exit Visual mode)
 vnoremap < <gv
@@ -80,7 +105,20 @@ vnoremap > >gv
 vnoremap . :normal .<CR>
 
 " Remap * to highlight the word under the cursor without moving to next result
-nnoremap * m`*``
+nnoremap * mxHmz`x*`zzt`x
+
+" Nerd tree file browser
+map <C-o> :NERDTreeToggle<CR>
+map <C-h> :NERDTree ~/<CR>
+
+" move between splits with alt
+nnoremap ∆ <C-W><C-J>
+nnoremap ˚ <C-W><C-K>
+nnoremap ¬ <C-W><C-L>
+nnoremap ˙ <C-W><C-h>
+
+" call make with leader+m
+nnoremap <leader>m :make<CR>
 
 
 " --- Colour Scheme ---
@@ -164,23 +202,42 @@ call InitializeDirectories()
 " --- Plugin Settings ---
 
 " Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_check_on_open = 0
+  let g:syntastic_check_on_wq = 0
+  map <silent> <Leader>e :Errors<CR>
+  map <Leader>s :SyntasticToggleMode<CR>
 
+" tabular
+  map <leader>t :Tab<CR>
 " Airline
-"
-"Fancy arrow symbols, requires a patched font
-"let g:airline_powerline_fonts = 1
 
-" Show PASTE if in paste mode
-let g:airline_detect_paste=1
+  "Fancy arrow symbols, requires a patched font
+  "let g:airline_powerline_fonts = 0
 
-" Show airline for tabs too
-let g:airline#extensions#tabline#enabled = 1
+  " Show PASTE if in paste mode
+  let g:airline_detect_paste = 1
 
+  " Show airline for tabs too
+  let g:airline#extensions#tabline#enabled = 1
+
+" ghc-mod
+  let g:haddock_docdir = "~/Library/Haskell/doc/"
+  " enable filetype detection, plus loading of filetype plugins
+  filetype plugin on
+  let g:haddock_browser = "/Applications/Google Chrome.app"
+
+" Taglist
+  let Tlist_Ctags_Cmd = "ctags"
+  let Tlist_WinWidth = 50
+
+  " Toggle taglist
+  nmap † :TlistToggle<cr>
+
+  " <Alt>-T = generate ctags recursively in working directory
+  nmap Ê :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
