@@ -148,7 +148,6 @@ let filetype_inc='armasm'
 
 " Exit insert mode from the home row
 inoremap kj <Esc>
-vnoremap kj <Esc>
 " shorten the timeout for sequential shortcuts in insert mode
 set timeoutlen=500
 
