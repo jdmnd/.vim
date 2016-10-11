@@ -50,9 +50,6 @@ Plugin 'munshkr/vim-tidal'
 "Python
 Plugin 'hdima/python-syntax'
 
-"Javascript
-Plugin 'pangloss/vim-javascript'
-"
 Plugin 'Shougo/vimproc'
 Plugin 'kien/ctrlp.vim'
 Plugin 'tikhomirov/vim-glsl'
@@ -267,7 +264,6 @@ call InitializeDirectories()
 
   " Show airline for tabs too
   let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#show_tabs = 0
 
 " ghc-mod
   let g:haddock_docdir = "~/Library/Haskell/share/doc/x86_64-osx-ghc-7.10.2/"
@@ -284,7 +280,3 @@ call InitializeDirectories()
 
   " <Alt>-T = generate ctags recursively in working directory
   nmap Ê :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-
-" speed-dating
-  autocmd VimEnter * SpeedDatingFormat! %v
-  autocmd VimEnter * SpeedDatingFormat! %^v

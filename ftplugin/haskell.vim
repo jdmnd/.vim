@@ -1,11 +1,42 @@
-setlocal omnifunc=necoghc#omnifunc
-
 " Type of expression under cursor
-nmap <silent> <leader>ht :w<CR>:GhcModType<CR>
+"nmap <silent> <leader>ht :w<CR>:GhcModType<CR>
 " Insert type of expression under cursor
-nmap <silent> <leader>hT :w<CR>:GhcModTypeInsert<CR>
+"nmap <silent> <leader>hT :w<CR>:GhcModTypeInsert<CR>
 " GHC errors and warnings
-nmap <silent> <leader>hc :SyntasticCheck ghc_mod<CR>
+"nmap <silent> <leader>hc :SyntasticCheck hdevtools<CR>
+
+nmap <silent> <leader>tw :GhcModTypeInsert<CR>
+nmap <silent> <leader>ts :GhcModSplitFunCase<CR>
+nmap <silent> <leader>tq :GhcModType<CR>
+nmap <silent> <leader>te :GhcModTypeClear<CR>
+
+" Disable "defined but not used" warnings
+"let g:syntastic_haskell_hdevtools_args = '-g -fno-warn-unused-binds'
+
+" Tell hdevtools how to source modules from cabal sandbox
+function! s:CabalCargs(args)
+   let l:output = system('cabal-cargs ' . a:args)
+   if v:shell_error != 0
+      let l:lines = split(l:output, '\n')
+      echohl ErrorMsg
+      echomsg 'args: ' . a:args
+      for l:line in l:lines
+         echomsg l:line
+      endfor
+      echohl None
+      return ''
+   endif
+   return l:output
+endfunction
+
+function! s:HdevtoolsOptions()
+    return s:CabalCargs('--format=hdevtools --sourcefile=' . shellescape(expand('%')))
+endfunction
+
+if filereadable(expand('%'))
+  let g:hdevtools_options = s:HdevtoolsOptions()
+endif
+
 
 " Leader also disables ghcmod highlights
 nmap <silent> <leader>/ :nohlsearch<CR>:SyntasticReset<cr>:GhcModTypeClear<cr>
@@ -45,7 +76,7 @@ hi clear Conceal
 set completeopt+=longest
 
 " Use buffer words as default tab completion
-let g:SuperTabDefaultCompletionType = '<c-x><c-p>'
+let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
 
 " But provide (neco-ghc) omnicompletion
 if has("gui_running")
@@ -56,5 +87,26 @@ else " no gui
   endif
 endif
 
+let g:haskellmode_completion_ghc = 1
+setlocal omnifunc=necoghc#omnifunc
+
 " Show types in completion suggestions
 let g:necoghc_enable_detailed_browse = 1
+
+" Haddock directory
+let g:haddock_docdir="/usr/local/share/doc/ghc/html/"
+
+" vim-haskell indentation settings
+let g:haskell_indent_if = 3
+let g:haskell_indent_case = 2
+let g:haskell_indent_let = 4
+let g:haskell_indent_where = 6
+let g:haskell_indent_do = 3
+let g:haskell_indent_in = 1
+
+" Tabularize
+let g:haskell_tabular = 1
+
+vmap a= :Tabularize /=<CR>
+vmap a; :Tabularize /::<CR>
+vmap a- :Tabularize /-><CR>
