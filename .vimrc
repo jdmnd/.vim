@@ -50,9 +50,6 @@ Plugin 'munshkr/vim-tidal'
 "Python
 Plugin 'hdima/python-syntax'
 
-"Python
-Plugin 'hdima/python-syntax'
-
 "Javascript
 Plugin 'pangloss/vim-javascript'
 "
