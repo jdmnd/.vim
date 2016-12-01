@@ -150,6 +150,9 @@ nnoremap ˚ <C-W><C-K>
 nnoremap ¬ <C-W><C-L>
 nnoremap ˙ <C-W><C-h>
 
+" folding
+nnoremap <space> za
+
 " call make with leader+m
 nnoremap <leader>m :make<CR>
 
@@ -294,3 +297,9 @@ call InitializeDirectories()
 " gundo
   nnoremap <F5> :GundoToggle<CR>
   let g:gundo_return_on_revert = 0
+
+" fugitive
+  nnoremap <leader>gw :Gwrite<CR>
+  nnoremap <leader>gr :Gread<CR>
+  nnoremap <leader>gc :Gcommit<CR>
+  nnoremap <leader>gs :Gstatus<CR>
