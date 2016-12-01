@@ -14,6 +14,7 @@ Plugin 'bling/vim-airline'
 Plugin 'yurifury/hexHighlight'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
+Plugin 'sjl/gundo.vim'
 " Colors
 Plugin 'mhartington/oceanic-next'
 "Git
@@ -141,7 +142,7 @@ nnoremap * mxHmz`x*`zzt`x
 
 " Nerd tree file browser
 map <C-o> :NERDTreeToggle<CR>
-map <C-h> :NERDTree ~/<CR>
+map <C-h> :NERDTree 
 
 " move between splits with alt
 nnoremap ∆ <C-W><C-J>
@@ -289,3 +290,7 @@ call InitializeDirectories()
 " speed-dating
   autocmd VimEnter * SpeedDatingFormat! %v
   autocmd VimEnter * SpeedDatingFormat! %^v
+
+" gundo
+  nnoremap <F5> :GundoToggle<CR>
+  let g:gundo_return_on_revert = 0
