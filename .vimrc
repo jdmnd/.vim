@@ -303,3 +303,5 @@ call InitializeDirectories()
   nnoremap <leader>gr :Gread<CR>
   nnoremap <leader>gc :Gcommit<CR>
   nnoremap <leader>gs :Gstatus<CR>
+  nnoremap <leader>gp :Gpull<CR>
+  nnoremap <leader>gP :Gpush<CR>
