@@ -1,3 +1,4 @@
-bundle
-ghc-mod
-.netrwhist
+/bundle/
+!/bundle/Vundle.vim
+/ghc-mod
+/.netrwhist
