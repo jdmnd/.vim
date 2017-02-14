@@ -91,7 +91,7 @@ set list
 
 " GUI Settings
 set guifont="Sauce\ Code\ Powerline:h11"
-set guioptions=gm
+set guioptions=cgm
 
 " Strip trailing whitespace
 autocmd FileType asm,c,cpp,java,go,php,haskell,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> | call StripTrailingWhitespace()
