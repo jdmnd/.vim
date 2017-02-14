@@ -122,7 +122,7 @@ let maplocalleader = '\'
 nnoremap Y y$
 
 " Hide search highlighting with ,/
-nmap <silent> <leader>/ :nohlsearch<CR>:SyntasticReset<cr>
+nmap <silent> <leader>/ :nohlsearch<CR>:SyntasticReset<CR>
 
 " Map H and L to move between buffers. Conflicts with ability to move to
 " bottom/top of screen, so first remap those to gh, gl.
@@ -143,14 +143,14 @@ vnoremap . :normal .<CR>
 nnoremap * mxHmz`x*`zzt`x
 
 " Nerd tree file browser
-map <C-o> :NERDTreeToggle<CR>
-map <C-h> :NERDTree 
+map <C-O> :NERDTreeToggle<CR>
+map <C-H> :NERDTree 
 
 " move between splits with alt
 nnoremap ∆ <C-W><C-J>
 nnoremap ˚ <C-W><C-K>
 nnoremap ¬ <C-W><C-L>
-nnoremap ˙ <C-W><C-h>
+nnoremap ˙ <C-W><C-H>
 
 " folding
 nnoremap <space> za
@@ -192,7 +192,7 @@ let asmsyntax='armasm'
 let filetype_inc='armasm'
 
 " Exit insert mode from the home row
-inoremap kj <Esc>
+inoremap kj <ESC>
 " shorten the timeout for sequential shortcuts in insert mode
 set timeoutlen=500
 
