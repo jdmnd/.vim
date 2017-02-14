@@ -12,9 +12,11 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'godlygeek/tabular'
 Plugin 'bling/vim-airline'
 Plugin 'yurifury/hexHighlight'
-Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'sjl/gundo.vim'
+" Linting
+Plugin 'scrooloose/syntastic'
+Plugin 'w0rp/ale'
 " Colors
 Plugin 'mhartington/oceanic-next'
 "Git
@@ -53,7 +55,7 @@ Plugin 'hdima/python-syntax'
 
 "Javascript
 Plugin 'pangloss/vim-javascript'
-"
+
 Plugin 'Shougo/vimproc'
 Plugin 'kien/ctrlp.vim'
 Plugin 'tikhomirov/vim-glsl'

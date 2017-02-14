@@ -20,3 +20,5 @@ let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 let g:syntastic_cpp_include_dirs = ['../include','include']
 let g:syntastic_cpp_check_header = 1
+
+let g:ale_cpp_gcc_options='-std=c++14 -Wall -I../include -Iinclude'
