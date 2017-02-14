@@ -152,6 +152,9 @@ nnoremap ˚ <C-W><C-K>
 nnoremap ¬ <C-W><C-L>
 nnoremap ˙ <C-W><C-H>
 
+" return cursor to first window (often NERDTree)
+nnoremap <leader><C-O> 1<C-W>w
+
 " folding
 nnoremap <space> za
 
