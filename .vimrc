@@ -169,6 +169,9 @@ function! WriteSaveCursor()
   call setpos('.', save_cursor)
 endfunction
 
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
+
 " --- Colour Scheme ---
 colorscheme liquidcarbon
 set background=dark
