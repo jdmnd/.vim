@@ -85,9 +85,12 @@ set splitbelow                  " Puts new split windows to the bottom of the cu
 set autoindent                  " Keep the indentation when creating a new line
 set smartindent                 " Syntax-based indenting
 set showmatch                   " Briefly flash matching parens while typing
+set wildmenu                    " Show list of matches when using :b or :find
 
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 set list
+
+set path+=**                    " Allow :find to recursively search subpaths
 
 " GUI Settings
 set guifont="Sauce\ Code\ Powerline:h11"
