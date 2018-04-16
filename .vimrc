@@ -15,7 +15,7 @@ Plugin 'yurifury/hexHighlight'
 Plugin 'scrooloose/nerdtree'
 Plugin 'sjl/gundo.vim'
 " Linting
-Plugin 'scrooloose/syntastic'
+"Plugin 'scrooloose/syntastic'
 Plugin 'w0rp/ale'
 " Colors
 Plugin 'mhartington/oceanic-next'
@@ -28,12 +28,20 @@ Plugin 'majutsushi/tagbar'
 Plugin 'mattn/calendar-vim'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-repeat'
+" multiple cursors :o
+Plugin 'terryma/vim-multiple-cursors'
 
 " Haskell
 Plugin 'neovimhaskell/haskell-vim'
 " Plugin 'enomsg/vim-haskellConcealPlus'
 Plugin 'eagletmt/ghcmod-vim'
 Plugin 'eagletmt/neco-ghc'
+
+" Elm
+Plugin 'ElmCast/elm-vim'
+
+" Elixir
+Plugin 'elixir-editors/vim-elixir'
 
 Plugin 'tomtom/tlib_vim'
 Plugin 'MarcWeber/vim-addon-mw-utils'
@@ -55,6 +63,14 @@ Plugin 'hdima/python-syntax'
 
 "Javascript
 Plugin 'pangloss/vim-javascript'
+Plugin 'othree/html5.vim'
+
+"Typescript
+Plugin 'leafgarland/typescript-vim'
+
+"C++
+Plugin 'rhysd/vim-clang-format'
+Plugin 'Valloric/YouCompleteMe'
 
 Plugin 'Shougo/vimproc'
 Plugin 'kien/ctrlp.vim'
@@ -97,7 +113,7 @@ set guifont="Sauce\ Code\ Powerline:h11"
 set guioptions=cgm
 
 " Strip trailing whitespace
-autocmd FileType asm,c,cpp,java,go,php,haskell,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> | call StripTrailingWhitespace()
+autocmd FileType asm,c,cpp,java,elixir,go,php,haskell,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> | call StripTrailingWhitespace()
 function! StripTrailingWhitespace()
   " Preparation: save last search, and cursor position.
   let _s=@/
@@ -125,7 +141,7 @@ let maplocalleader = '\'
 nnoremap Y y$
 
 " Hide search highlighting with ,/
-nmap <silent> <leader>/ :nohlsearch<CR>:SyntasticReset<CR>
+nmap <silent> <leader>/ :nohlsearch<CR>
 
 " Map H and L to move between buffers. Conflicts with ability to move to
 " bottom/top of screen, so first remap those to gh, gl.
@@ -259,17 +275,23 @@ call InitializeDirectories()
 
 " --- Plugin Settings ---
 
-" Syntastic
-  set statusline+=%#warningmsg#
-  set statusline+=%{SyntasticStatuslineFlag()}
-  set statusline+=%*
+" Ale
+let g:ale_linters = {
+\   'typescript': ['tslint', 'tsserver'],
+\   'javascript': ['eslint'],
+\}
 
-  let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_loc_list = 0
-  let g:syntastic_check_on_open = 0
-  let g:syntastic_check_on_wq = 0
-  map <silent> <Leader>e :Errors<CR>
-  map <Leader>s :SyntasticToggleMode<CR>
+" Syntastic
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 0
+" let g:syntastic_check_on_open = 0
+" let g:syntastic_check_on_wq = 0
+" map <silent> <Leader>e :Errors<CR>
+" map <Leader>s :SyntasticToggleMode<CR>
 
 " tabular
   map <leader>t :Tab<CR>
@@ -279,7 +301,7 @@ call InitializeDirectories()
   "let g:airline_powerline_fonts = 0
 
   " Show PASTE if in paste mode
-  let g:airline_detect_paste = 1
+  "let g:airline_detect_paste = 1
 
   " Show airline for tabs too
   let g:airline#extensions#tabline#enabled = 1
@@ -316,3 +338,12 @@ call InitializeDirectories()
   nnoremap <leader>gs :Gstatus<CR>
   nnoremap <leader>gp :Gpull<CR>
   nnoremap <leader>gP :Gpush<CR>
+
+
+  nmap <leader>sp :call <SID>SynStack()<CR>
+  function! <SID>SynStack()
+    if !exists("*synstack")
+      return
+    endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+  endfunc
