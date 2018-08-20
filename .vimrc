@@ -14,6 +14,7 @@ Plugin 'bling/vim-airline'
 Plugin 'yurifury/hexHighlight'
 Plugin 'scrooloose/nerdtree'
 Plugin 'sjl/gundo.vim'
+Plugin 'mileszs/ack.vim'
 " Linting
 "Plugin 'scrooloose/syntastic'
 Plugin 'w0rp/ale'
@@ -28,8 +29,6 @@ Plugin 'majutsushi/tagbar'
 Plugin 'mattn/calendar-vim'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-repeat'
-" multiple cursors :o
-Plugin 'terryma/vim-multiple-cursors'
 
 " Haskell
 Plugin 'neovimhaskell/haskell-vim'
@@ -92,6 +91,7 @@ set incsearch
 set hlsearch
 set nospell
 set ignorecase
+set smartcase
 set hidden                      " Allow modified buffers to be hidden without unloading
 set nowrap                      " Don't wrap long lines
 set showmode                    " Display the current mode
@@ -108,12 +108,14 @@ set list
 
 set path+=**                    " Allow :find to recursively search subpaths
 
+set diffopt+=vertical           " Always open diffs in a vertical split
+
 " GUI Settings
-set guifont="Sauce\ Code\ Powerline:h11"
+set guifont=Source\ Code\ Pro:h14
 set guioptions=cgm
 
 " Strip trailing whitespace
-autocmd FileType asm,c,cpp,java,elixir,go,php,haskell,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> | call StripTrailingWhitespace()
+autocmd FileType asm,c,cpp,java,elixir,go,php,haskell,javascript,puppet,python,ruby,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> | call StripTrailingWhitespace()
 function! StripTrailingWhitespace()
   " Preparation: save last search, and cursor position.
   let _s=@/
@@ -170,6 +172,10 @@ nnoremap ∆ <C-W><C-J>
 nnoremap ˚ <C-W><C-K>
 nnoremap ¬ <C-W><C-L>
 nnoremap ˙ <C-W><C-H>
+
+" iterate error list with alt
+nnoremap ∫ :cprev <CR>
+nnoremap µ :cnext <CR>
 
 " return cursor to first window (often NERDTree)
 nnoremap <leader><C-O> 1<C-W>w
@@ -281,6 +287,8 @@ let g:ale_linters = {
 \   'javascript': ['eslint'],
 \}
 
+let g:ale_javascript_eslint_options = '--no-ignore'
+
 " Syntastic
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
@@ -347,3 +355,15 @@ let g:ale_linters = {
     endif
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
   endfunc
+
+" CtrlP
+let g:ctrlp_custom_ignore = 'node_modules'
+
+" YouCompleteMe
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
+" Ack.vim
+nnoremap <leader>a :Ack -i ''<left>
+vnoremap <leader>a y:Ack -i '<C-r>"'<CR>
+nnoremap <leader>j :Ack --js -i ''<left>
+nnoremap <leader>* :Ack ''<left><C-r><C-w><CR>
