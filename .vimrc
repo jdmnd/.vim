@@ -62,6 +62,7 @@ Plugin 'hdima/python-syntax'
 
 "Javascript
 Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 Plugin 'othree/html5.vim'
 
 "Typescript
@@ -164,8 +165,8 @@ vnoremap . :normal .<CR>
 nnoremap * mxHmz`x*`zzt`x
 
 " Nerd tree file browser
-map <C-O> :NERDTreeToggle<CR>
-map <C-H> :NERDTree 
+noremap <C-O> :NERDTreeToggle<CR>
+noremap <C-H> :NERDTree 
 
 " move between splits with alt
 nnoremap ∆ <C-W><C-J>
@@ -186,8 +187,12 @@ nnoremap <space> za
 " call make with leader+m
 nnoremap <leader>m :make<CR>
 
+" jumplist forward/backward
+nnoremap <C-J> <C-O>
+nnoremap <C-K> <C-I>
+
 " write without losing position on line
-nnoremap <leader>w :call WriteSaveCursor()<CR>
+nnoremap <silent> <leader>w :call WriteSaveCursor()<CR>
 function! WriteSaveCursor()
   let save_cursor = getpos(".")
   write
@@ -285,7 +290,14 @@ call InitializeDirectories()
 let g:ale_linters = {
 \   'typescript': ['tslint', 'tsserver'],
 \   'javascript': ['eslint'],
+\   'rust': ['cargo'],
 \}
+
+let g:ale_fixers = {
+\   'rust': ['rustfmt'],
+\}
+
+let g:ale_fix_on_save = 1
 
 let g:ale_javascript_eslint_options = '--no-ignore'
 
@@ -361,6 +373,9 @@ let g:ctrlp_custom_ignore = 'node_modules'
 
 " YouCompleteMe
 let g:ycm_autoclose_preview_window_after_insertion = 1
+nnoremap <C-L> :YcmCompleter GoTo<CR>
+nnoremap <leader>d :YcmCompleter GetDoc<CR>
+nnoremap <leader>c :pclose<CR>
 
 " Ack.vim
 nnoremap <leader>a :Ack -i ''<left>
