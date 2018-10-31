@@ -228,7 +228,7 @@ let asmsyntax='armasm'
 let filetype_inc='armasm'
 
 " Exit insert mode from the home row
-inoremap kj <ESC>
+"inoremap kj <ESC>
 " shorten the timeout for sequential shortcuts in insert mode
 set timeoutlen=500
 
@@ -245,12 +245,6 @@ if has('persistent_undo')
   set undolevels=1000         " Maximum number of changes that can be undone
   set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
 endif
-
-" Add exclusions to mkview and loadview
-" eg: *.*, svn-commit.tmp
-let g:skipview_files = [
-      \ '\[example pattern\]'
-      \ ]
 
 " Initialize directories
 function! InitializeDirectories()
@@ -298,8 +292,6 @@ let g:ale_fixers = {
 \}
 
 let g:ale_fix_on_save = 1
-
-let g:ale_javascript_eslint_options = '--no-ignore'
 
 " Syntastic
 " set statusline+=%#warningmsg#
