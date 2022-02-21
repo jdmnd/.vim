@@ -14,7 +14,8 @@ Plugin 'bling/vim-airline'
 Plugin 'yurifury/hexHighlight'
 Plugin 'scrooloose/nerdtree'
 Plugin 'sjl/gundo.vim'
-Plugin 'mileszs/ack.vim'
+Plugin 'jremmen/vim-ripgrep'
+Plugin 'yssl/QFEnter'
 " Linting
 "Plugin 'scrooloose/syntastic'
 Plugin 'w0rp/ale'
@@ -44,9 +45,7 @@ Plugin 'elixir-editors/vim-elixir'
 
 Plugin 'tomtom/tlib_vim'
 Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'garbas/vim-snipmate'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'Shougo/neocomplete.vim'
 
 Plugin 'lukerandall/haskellmode-vim'
 Plugin 'Twinside/vim-hoogle'
@@ -70,7 +69,17 @@ Plugin 'leafgarland/typescript-vim'
 
 "C++
 Plugin 'rhysd/vim-clang-format'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
+
+"Kotlin
+Plugin 'udalov/kotlin-vim'
+
+"Rust
+Plugin 'rust-lang/rust.vim'
+
+Plugin 'Shougo/deoplete.nvim'
+Plugin 'roxma/nvim-yarp'
+Plugin 'roxma/vim-hug-neovim-rpc'
 
 Plugin 'Shougo/vimproc'
 Plugin 'kien/ctrlp.vim'
@@ -107,16 +116,21 @@ set wildmenu                    " Show list of matches when using :b or :find
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 set list
 
+"set columns=150
+"set lines=50
+
 set path+=**                    " Allow :find to recursively search subpaths
 
 set diffopt+=vertical           " Always open diffs in a vertical split
 
+set complete-=i           " Disable ^N searching included files (slow)
+
 " GUI Settings
-set guifont=Source\ Code\ Pro:h14
+set guifont=Source\ Code\ Pro:h15
 set guioptions=cgm
 
 " Strip trailing whitespace
-autocmd FileType asm,c,cpp,java,elixir,go,php,haskell,javascript,puppet,python,ruby,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> | call StripTrailingWhitespace()
+autocmd FileType asm,c,cpp,java,elixir,go,php,haskell,javascript,puppet,python,ruby,rust,sql,twig,xml,yml,perl autocmd BufWritePre <buffer> | call StripTrailingWhitespace()
 function! StripTrailingWhitespace()
   " Preparation: save last search, and cursor position.
   let _s=@/
@@ -192,7 +206,7 @@ nnoremap <C-J> <C-O>
 nnoremap <C-K> <C-I>
 
 " write without losing position on line
-nnoremap <silent> <leader>w :call WriteSaveCursor()<CR>
+nnoremap <silent> <leader>w :silent call WriteSaveCursor()<CR>
 function! WriteSaveCursor()
   let save_cursor = getpos(".")
   write
@@ -282,16 +296,21 @@ call InitializeDirectories()
 
 " Ale
 let g:ale_linters = {
-\   'typescript': ['tslint', 'tsserver'],
-\   'javascript': ['eslint'],
-\   'rust': ['cargo'],
+\   'typescript': ['eslint', 'tsserver'],
+\   'typescriptreact': ['eslint', 'tsserver'],
+\   'javascript': ['eslint', 'jshint', 'flow'],
+\   'rust': ['cargo', 'analyzer'],
+\   'zig': ['zls'],
 \}
 
 let g:ale_fixers = {
+\   'typescript': ['prettier'],
+\   'typescriptreact': ['prettier'],
 \   'rust': ['rustfmt'],
 \}
 
 let g:ale_fix_on_save = 1
+let g:ale_rust_rustfmt_options = '--edition 2021'
 
 " Syntastic
 " set statusline+=%#warningmsg#
@@ -305,7 +324,7 @@ let g:ale_fix_on_save = 1
 " map <silent> <Leader>e :Errors<CR>
 " map <Leader>s :SyntasticToggleMode<CR>
 
-" tabular
+" Tabularize align columns around a character
   map <leader>t :Tab<CR>
 " Airline
 
@@ -346,10 +365,10 @@ let g:ale_fix_on_save = 1
 " fugitive
   nnoremap <leader>gw :Gwrite<CR>
   nnoremap <leader>gr :Gread<CR>
-  nnoremap <leader>gc :Gcommit<CR>
-  nnoremap <leader>gs :Gstatus<CR>
-  nnoremap <leader>gp :Gpull<CR>
-  nnoremap <leader>gP :Gpush<CR>
+  nnoremap <leader>gc :Git commit<CR>
+  nnoremap <leader>gs :Git status<CR>
+  nnoremap <leader>gp :Git pull<CR>
+  nnoremap <leader>gP :Git push<CR>
 
 
   nmap <leader>sp :call <SID>SynStack()<CR>
@@ -364,13 +383,58 @@ let g:ale_fix_on_save = 1
 let g:ctrlp_custom_ignore = 'node_modules'
 
 " YouCompleteMe
-let g:ycm_autoclose_preview_window_after_insertion = 1
-nnoremap <C-L> :YcmCompleter GoTo<CR>
-nnoremap <leader>d :YcmCompleter GetDoc<CR>
-nnoremap <leader>c :pclose<CR>
+"let g:ycm_autoclose_preview_window_after_insertion = 1
+"nnoremap <C-L> :YcmCompleter GoTo<CR>
+"nnoremap <leader>d :YcmCompleter GetDoc<CR>
+"nnoremap <leader>c :pclose<CR>
 
-" Ack.vim
-nnoremap <leader>a :Ack -i ''<left>
-vnoremap <leader>a y:Ack -i '<C-r>"'<CR>
-nnoremap <leader>j :Ack --js -i ''<left>
-nnoremap <leader>* :Ack ''<left><C-r><C-w><CR>
+" vim-ripgrep
+nnoremap <leader>a :Rg ''<left>
+vnoremap <leader>a y:Rg -i '<C-r>"'<CR>
+nnoremap <leader>* yiw:Rg '\b<C-r>"\b'<CR>
+
+" pangloss/javascript
+let g:javascript_plugin_flow = 1
+
+" deoplete
+let g:deoplete#enable_at_startup = 1
+
+" Set up :Project command allowing project quick-switch
+" https://stackoverflow.com/questions/28287402/what-is-the-best-way-to-switch-between-projects-in-vim#answer-28289482
+function! s:SetupProjectCommand()
+  set viminfo+=!
+
+  if !exists('g:PROJECTS')
+    let g:PROJECTS = {}
+  endif
+
+  let l:codepath = glob('~/kry/code/')
+  for projectdir in readdir(codepath, { n -> n !~ '^\.' })
+    let l:path = codepath . projectdir
+    if (isdirectory(l:path))
+      let g:PROJECTS[l:path] = 1
+    endif
+  endfor
+
+  " augroup project_discovery
+  "   autocmd!
+  "   autocmd User Fugitive let g:PROJECTS[fnamemodify(fugitive#repo().dir(), ':h')] = 1
+  " augroup END
+
+  command! -complete=customlist,s:project_complete -nargs=1 Project cd <args>
+
+  function! s:project_complete(lead, cmdline, _) abort
+    let results = keys(get(g:, 'PROJECTS', {}))
+
+    " use projectionist if available
+    if exists('*projectionist#completion_filter')
+      return projectionist#completion_filter(results, a:lead, '/')
+    endif
+
+    " fallback to cheap fuzzy matching
+    let regex = substitute(a:lead, '.', '[&].*', 'g')
+    return filter(results, { idx, val -> fnamemodify(val, ':t') =~ regex })
+  endfunction
+endfunction
+
+exec s:SetupProjectCommand()
