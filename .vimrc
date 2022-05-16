@@ -11,10 +11,11 @@ Plugin 'tpope/vim-surround'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'godlygeek/tabular'
 Plugin 'bling/vim-airline'
-Plugin 'yurifury/hexHighlight'
 Plugin 'scrooloose/nerdtree'
 Plugin 'sjl/gundo.vim'
 Plugin 'mileszs/ack.vim'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 " Linting
 "Plugin 'scrooloose/syntastic'
 Plugin 'w0rp/ale'
@@ -44,7 +45,6 @@ Plugin 'elixir-editors/vim-elixir'
 
 Plugin 'tomtom/tlib_vim'
 Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'garbas/vim-snipmate'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Shougo/neocomplete.vim'
 
@@ -58,7 +58,8 @@ Plugin 'ervandew/supertab'
 Plugin 'munshkr/vim-tidal'
 
 "Python
-Plugin 'hdima/python-syntax'
+Plugin 'petobens/poet-v'
+Plugin 'vim-scripts/indentpython.vim'
 
 "Javascript
 Plugin 'pangloss/vim-javascript'
@@ -285,10 +286,13 @@ let g:ale_linters = {
 \   'typescript': ['tslint', 'tsserver'],
 \   'javascript': ['eslint'],
 \   'rust': ['cargo'],
+\   'python': ['mypy', 'pylint']
 \}
 
 let g:ale_fixers = {
 \   'rust': ['rustfmt'],
+\   'go': ['gofmt', 'goimports'],
+\   'python': ['isort', 'black']
 \}
 
 let g:ale_fix_on_save = 1
@@ -346,10 +350,10 @@ let g:ale_fix_on_save = 1
 " fugitive
   nnoremap <leader>gw :Gwrite<CR>
   nnoremap <leader>gr :Gread<CR>
-  nnoremap <leader>gc :Gcommit<CR>
+  nnoremap <leader>gc :Git commit<CR>
   nnoremap <leader>gs :Gstatus<CR>
-  nnoremap <leader>gp :Gpull<CR>
-  nnoremap <leader>gP :Gpush<CR>
+  nnoremap <leader>gp :Git pull<CR>
+  nnoremap <leader>gP :Git push<CR>
 
 
   nmap <leader>sp :call <SID>SynStack()<CR>
@@ -365,12 +369,25 @@ let g:ctrlp_custom_ignore = 'node_modules'
 
 " YouCompleteMe
 let g:ycm_autoclose_preview_window_after_insertion = 1
-nnoremap <C-L> :YcmCompleter GoTo<CR>
+nnoremap <leader>] :YcmCompleter GoToType<CR>
+nnoremap <C-]> :YcmCompleter GoToType<CR>
+nnoremap <leader>[ :YcmCompleter GoToReferences<CR>
+nnoremap <leader>; :YcmCompleter GoTo<CR>
 nnoremap <leader>d :YcmCompleter GetDoc<CR>
+nmap <D-CR> <plug>(YCMHover)
 nnoremap <leader>c :pclose<CR>
+
+" Navigation in jumplist
+nnoremap <leader>o <C-O>
+nnoremap <leader>i <C-I>
 
 " Ack.vim
 nnoremap <leader>a :Ack -i ''<left>
 vnoremap <leader>a y:Ack -i '<C-r>"'<CR>
 nnoremap <leader>j :Ack --js -i ''<left>
 nnoremap <leader>* :Ack ''<left><C-r><C-w><CR>
+
+
+" Poetry
+let g:poetv_auto_activate = 1
+let g:poetv_executables = ['poetry']
