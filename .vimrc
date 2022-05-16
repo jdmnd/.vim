@@ -13,7 +13,8 @@ Plugin 'godlygeek/tabular'
 Plugin 'bling/vim-airline'
 Plugin 'scrooloose/nerdtree'
 Plugin 'sjl/gundo.vim'
-Plugin 'mileszs/ack.vim'
+Plugin 'jremmen/vim-ripgrep'
+Plugin 'yssl/QFEnter'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 " Linting
@@ -46,7 +47,6 @@ Plugin 'elixir-editors/vim-elixir'
 Plugin 'tomtom/tlib_vim'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'Shougo/neocomplete.vim'
 
 Plugin 'lukerandall/haskellmode-vim'
 Plugin 'Twinside/vim-hoogle'
@@ -71,10 +71,11 @@ Plugin 'leafgarland/typescript-vim'
 
 "C++
 Plugin 'rhysd/vim-clang-format'
-Plugin 'Valloric/YouCompleteMe'
 
+"Completion
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'Shougo/vimproc'
-Plugin 'kien/ctrlp.vim'
+"Plugin 'kien/ctrlp.vim'
 Plugin 'tikhomirov/vim-glsl'
 Plugin 'emnh/taglist.vim'
 Plugin 'tmhedberg/matchit'
@@ -112,12 +113,15 @@ set path+=**                    " Allow :find to recursively search subpaths
 
 set diffopt+=vertical           " Always open diffs in a vertical split
 
+set complete-=i           " Disable ^N searching included files (slow)
+
+
 " GUI Settings
-set guifont=Source\ Code\ Pro:h14
+set guifont=Source\ Code\ Pro:h15
 set guioptions=cgm
 
 " Strip trailing whitespace
-autocmd FileType asm,c,cpp,java,elixir,go,php,haskell,javascript,puppet,python,ruby,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> | call StripTrailingWhitespace()
+autocmd FileType asm,c,cpp,java,elixir,go,php,haskell,javascript,puppet,python,ruby,rust,sql,twig,xml,yml,perl autocmd BufWritePre <buffer> | call StripTrailingWhitespace()
 function! StripTrailingWhitespace()
   " Preparation: save last search, and cursor position.
   let _s=@/
@@ -193,7 +197,7 @@ nnoremap <C-J> <C-O>
 nnoremap <C-K> <C-I>
 
 " write without losing position on line
-nnoremap <silent> <leader>w :call WriteSaveCursor()<CR>
+nnoremap <silent> <leader>w :silent call WriteSaveCursor()<CR>
 function! WriteSaveCursor()
   let save_cursor = getpos(".")
   write
@@ -284,18 +288,23 @@ call InitializeDirectories()
 " Ale
 let g:ale_linters = {
 \   'typescript': ['tslint', 'tsserver'],
+\   'typescriptreact': ['eslint', 'tsserver'],
 \   'javascript': ['eslint'],
-\   'rust': ['cargo'],
+\   'rust': ['cargo', 'analyzer'],
 \   'python': ['mypy', 'pylint']
 \}
 
 let g:ale_fixers = {
+\   'typescript': ['prettier'],
+\   'typescriptreact': ['prettier'],
+\   'javascript': ['prettier'],
 \   'rust': ['rustfmt'],
 \   'go': ['gofmt', 'goimports'],
 \   'python': ['isort', 'black']
 \}
 
 let g:ale_fix_on_save = 1
+let g:ale_rust_rustfmt_options = '--edition 2021'
 
 " Syntastic
 " set statusline+=%#warningmsg#
@@ -309,7 +318,7 @@ let g:ale_fix_on_save = 1
 " map <silent> <Leader>e :Errors<CR>
 " map <Leader>s :SyntasticToggleMode<CR>
 
-" tabular
+" Tabularize align columns around a character
   map <leader>t :Tab<CR>
 " Airline
 
@@ -351,7 +360,7 @@ let g:ale_fix_on_save = 1
   nnoremap <leader>gw :Gwrite<CR>
   nnoremap <leader>gr :Gread<CR>
   nnoremap <leader>gc :Git commit<CR>
-  nnoremap <leader>gs :Gstatus<CR>
+  nnoremap <leader>gs :Git status<CR>
   nnoremap <leader>gp :Git pull<CR>
   nnoremap <leader>gP :Git push<CR>
 
@@ -381,13 +390,15 @@ nnoremap <leader>c :pclose<CR>
 nnoremap <leader>o <C-O>
 nnoremap <leader>i <C-I>
 
-" Ack.vim
-nnoremap <leader>a :Ack -i ''<left>
-vnoremap <leader>a y:Ack -i '<C-r>"'<CR>
-nnoremap <leader>j :Ack --js -i ''<left>
-nnoremap <leader>* :Ack ''<left><C-r><C-w><CR>
+" vim-ripgrep
+nnoremap <leader>a :Rg ''<left>
+vnoremap <leader>a y:Rg -i '<C-r>"'<CR>
+nnoremap <leader>* yiw:Rg '\b<C-r>"\b'<CR>
 
 
 " Poetry
 let g:poetv_auto_activate = 1
 let g:poetv_executables = ['poetry']
+
+" FZF
+noremap <C-P> :FZF<CR>
