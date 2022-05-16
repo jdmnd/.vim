@@ -13,7 +13,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'bling/vim-airline'
 Plugin 'scrooloose/nerdtree'
 Plugin 'sjl/gundo.vim'
-Plugin 'jremmen/vim-ripgrep'
+" Plugin 'jremmen/vim-ripgrep'
 Plugin 'yssl/QFEnter'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
@@ -391,9 +391,21 @@ nnoremap <leader>o <C-O>
 nnoremap <leader>i <C-I>
 
 " vim-ripgrep
-nnoremap <leader>a :Rg ''<left>
-vnoremap <leader>a y:Rg -i '<C-r>"'<CR>
-nnoremap <leader>* yiw:Rg '\b<C-r>"\b'<CR>
+nnoremap <leader>a :RG<CR>
+"nnoremap <leader>a :Rg ''<left>
+"vnoremap <leader>a y:Rg -i '<C-r>"'<CR>
+"nnoremap <leader>* yiw:Rg '\b<C-r>"\b'<CR>
+
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case --hidden -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
 
 
 " Poetry
@@ -401,4 +413,5 @@ let g:poetv_auto_activate = 1
 let g:poetv_executables = ['poetry']
 
 " FZF
-noremap <C-P> :FZF<CR>
+let $FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+nnoremap <C-P> :Files<CR>
