@@ -72,6 +72,12 @@ Plugin 'leafgarland/typescript-vim'
 "C++
 Plugin 'rhysd/vim-clang-format'
 
+"Kotlin
+Plugin 'udalov/kotlin-vim'
+
+"Rust
+Plugin 'rust-lang/rust.vim'
+
 "Completion
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'Shougo/vimproc'
@@ -108,6 +114,9 @@ set wildmenu                    " Show list of matches when using :b or :find
 
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 set list
+
+"set columns=150
+"set lines=50
 
 set path+=**                    " Allow :find to recursively search subpaths
 
@@ -291,13 +300,15 @@ let g:ale_linters = {
 \   'typescriptreact': ['eslint', 'tsserver'],
 \   'javascript': ['eslint'],
 \   'rust': ['cargo', 'analyzer'],
-\   'python': ['mypy', 'pylint']
+\   'python': ['mypy', 'pylint'],
+\   'zig': ['zls']
 \}
 
 let g:ale_fixers = {
 \   'typescript': ['prettier'],
 \   'typescriptreact': ['prettier'],
 \   'javascript': ['prettier'],
+\   'scss': ['prettier'],
 \   'rust': ['rustfmt'],
 \   'go': ['gofmt', 'goimports'],
 \   'python': ['isort', 'black']
@@ -338,15 +349,6 @@ let g:ale_rust_rustfmt_options = '--edition 2021'
   " enable filetype detection, plus loading of filetype plugins
   filetype plugin on
 
-" Taglist
-  let Tlist_Ctags_Cmd = "ctags"
-  let Tlist_WinWidth = 50
-
-  " Toggle taglist
-  nmap † :TlistToggle<cr>
-
-  " <Alt>-T = generate ctags recursively in working directory
-  nmap Ê :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 " speed-dating
   autocmd VimEnter * SpeedDatingFormat! %v
