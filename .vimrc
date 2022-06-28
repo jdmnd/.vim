@@ -77,7 +77,7 @@ Plugin 'udalov/kotlin-vim'
 "Rust
 Plugin 'rust-lang/rust.vim'
 
-Plugin 'Shougo/deoplete.nvim'
+" Plugin 'Shougo/deoplete.nvim'
 Plugin 'roxma/nvim-yarp'
 Plugin 'roxma/vim-hug-neovim-rpc'
 
@@ -306,6 +306,7 @@ let g:ale_linters = {
 let g:ale_fixers = {
 \   'typescript': ['prettier'],
 \   'typescriptreact': ['prettier'],
+\   'scss': ['prettier'],
 \   'rust': ['rustfmt'],
 \}
 
@@ -344,15 +345,6 @@ let g:ale_rust_rustfmt_options = '--edition 2021'
   " enable filetype detection, plus loading of filetype plugins
   filetype plugin on
 
-" Taglist
-  let Tlist_Ctags_Cmd = "ctags"
-  let Tlist_WinWidth = 50
-
-  " Toggle taglist
-  nmap † :TlistToggle<cr>
-
-  " <Alt>-T = generate ctags recursively in working directory
-  nmap Ê :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 " speed-dating
   autocmd VimEnter * SpeedDatingFormat! %v
@@ -396,45 +388,3 @@ nnoremap <leader>* yiw:Rg '\b<C-r>"\b'<CR>
 " pangloss/javascript
 let g:javascript_plugin_flow = 1
 
-" deoplete
-let g:deoplete#enable_at_startup = 1
-
-" Set up :Project command allowing project quick-switch
-" https://stackoverflow.com/questions/28287402/what-is-the-best-way-to-switch-between-projects-in-vim#answer-28289482
-function! s:SetupProjectCommand()
-  set viminfo+=!
-
-  if !exists('g:PROJECTS')
-    let g:PROJECTS = {}
-  endif
-
-  let l:codepath = glob('~/kry/code/')
-  for projectdir in readdir(codepath, { n -> n !~ '^\.' })
-    let l:path = codepath . projectdir
-    if (isdirectory(l:path))
-      let g:PROJECTS[l:path] = 1
-    endif
-  endfor
-
-  " augroup project_discovery
-  "   autocmd!
-  "   autocmd User Fugitive let g:PROJECTS[fnamemodify(fugitive#repo().dir(), ':h')] = 1
-  " augroup END
-
-  command! -complete=customlist,s:project_complete -nargs=1 Project cd <args>
-
-  function! s:project_complete(lead, cmdline, _) abort
-    let results = keys(get(g:, 'PROJECTS', {}))
-
-    " use projectionist if available
-    if exists('*projectionist#completion_filter')
-      return projectionist#completion_filter(results, a:lead, '/')
-    endif
-
-    " fallback to cheap fuzzy matching
-    let regex = substitute(a:lead, '.', '[&].*', 'g')
-    return filter(results, { idx, val -> fnamemodify(val, ':t') =~ regex })
-  endfunction
-endfunction
-
-exec s:SetupProjectCommand()
