@@ -340,16 +340,6 @@ let g:ale_rust_rustfmt_options = '--edition 2021'
   " enable filetype detection, plus loading of filetype plugins
   filetype plugin on
 
-" Taglist
-  let Tlist_Ctags_Cmd = "ctags"
-  let Tlist_WinWidth = 50
-
-  " Toggle taglist
-  nmap † :TlistToggle<cr>
-
-  " <Alt>-T = generate ctags recursively in working directory
-  nmap Ê :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-
 " speed-dating
   autocmd VimEnter * SpeedDatingFormat! %v
   autocmd VimEnter * SpeedDatingFormat! %^v
