@@ -287,20 +287,22 @@ call InitializeDirectories()
 
 " Ale
 let g:ale_linters = {
-\   'typescript': ['tslint', 'tsserver'],
-\   'typescriptreact': ['eslint', 'tsserver'],
+\   'cpp': [],
 \   'javascript': ['eslint'],
+\   'python': ['mypy', 'pylint'],
 \   'rust': ['cargo', 'analyzer'],
-\   'python': ['mypy', 'pylint']
+\   'typescript': ['tslint', 'tsserver'],
+\   'typescriptreact': ['eslint', 'tsserver']
 \}
 
 let g:ale_fixers = {
-\   'typescript': ['prettier'],
-\   'typescriptreact': ['prettier'],
-\   'javascript': ['prettier'],
-\   'rust': ['rustfmt'],
+\   'cpp': [],
 \   'go': ['gofmt', 'goimports'],
-\   'python': ['isort', 'black']
+\   'javascript': ['prettier'],
+\   'python': ['isort', 'black'],
+\   'rust': ['rustfmt'],
+\   'typescript': ['prettier'],
+\   'typescriptreact': ['prettier']
 \}
 
 let g:ale_fix_on_save = 1
