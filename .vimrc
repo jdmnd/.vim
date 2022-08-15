@@ -14,7 +14,7 @@ Plugin 'bling/vim-airline'
 Plugin 'scrooloose/nerdtree'
 Plugin 'sjl/gundo.vim'
 " Plugin 'jremmen/vim-ripgrep'
-Plugin 'yssl/QFEnter'
+" Plugin 'yssl/QFEnter'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 " Linting
