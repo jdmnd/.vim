@@ -202,8 +202,8 @@ nnoremap <space> za
 nnoremap <leader>m :make<CR>
 
 " jumplist forward/backward
-nnoremap <C-J> <C-O>
-nnoremap <C-K> <C-I>
+nnoremap <C-K> <C-O>
+nnoremap <C-J> <C-I>
 
 " write without losing position on line
 nnoremap <silent> <leader>w :silent call WriteSaveCursor()<CR>
