@@ -296,22 +296,22 @@ call InitializeDirectories()
 
 " Ale
 let g:ale_linters = {
-\   'typescript': ['eslint', 'tsserver'],
-\   'typescriptreact': ['eslint', 'tsserver'],
+\   'cpp': [],
 \   'javascript': ['eslint'],
-\   'rust': ['cargo', 'analyzer'],
 \   'python': ['mypy', 'pylint'],
-\   'zig': ['zls']
+\   'rust': ['cargo', 'analyzer'],
+\   'typescript': ['eslint', 'tsserver'],
+\   'typescriptreact': ['eslint', 'tsserver']
 \}
 
 let g:ale_fixers = {
-\   'typescript': ['prettier'],
-\   'typescriptreact': ['prettier'],
-\   'javascript': ['prettier'],
-\   'scss': ['prettier'],
-\   'rust': ['rustfmt'],
+\   'cpp': [],
 \   'go': ['gofmt', 'goimports'],
-\   'python': ['isort', 'black']
+\   'javascript': ['prettier'],
+\   'python': ['isort', 'black'],
+\   'rust': ['rustfmt'],
+\   'typescript': ['prettier'],
+\   'typescriptreact': ['prettier']
 \}
 
 let g:ale_fix_on_save = 1
@@ -348,7 +348,6 @@ let g:ale_rust_rustfmt_options = '--edition 2021'
   let g:haddock_browser = "/Applications/Google Chrome.app"
   " enable filetype detection, plus loading of filetype plugins
   filetype plugin on
-
 
 " speed-dating
   autocmd VimEnter * SpeedDatingFormat! %v
