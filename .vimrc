@@ -396,12 +396,13 @@ nnoremap <leader>i <C-I>
 
 " vim-ripgrep
 nnoremap <leader>a :RG<CR>
+nnoremap <leader>* yiw:RG <C-r>"<CR>
+vnoremap <leader>a y:RG <C-r>"<CR>
 "nnoremap <leader>a :Rg ''<left>
 "vnoremap <leader>a y:Rg -i '<C-r>"'<CR>
-"nnoremap <leader>* yiw:Rg '\b<C-r>"\b'<CR>
 
 function! RipgrepFzf(query, fullscreen)
-  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case --hidden -- %s || true'
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
   let initial_command = printf(command_fmt, shellescape(a:query))
   let reload_command = printf(command_fmt, '{q}')
   let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
@@ -419,3 +420,17 @@ let g:poetv_executables = ['poetry']
 " FZF
 let $FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 nnoremap <C-P> :Files<CR>
+
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+let $FZF_DEFAULT_OPTS = '--bind ctrl-l:select-all+accept'
