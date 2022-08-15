@@ -296,7 +296,7 @@ call InitializeDirectories()
 
 " Ale
 let g:ale_linters = {
-\   'typescript': ['tslint', 'tsserver'],
+\   'typescript': ['eslint', 'tsserver'],
 \   'typescriptreact': ['eslint', 'tsserver'],
 \   'javascript': ['eslint'],
 \   'rust': ['cargo', 'analyzer'],
