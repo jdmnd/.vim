@@ -385,8 +385,10 @@ nnoremap <C-]> :YcmCompleter GoToType<CR>
 nnoremap <leader>[ :YcmCompleter GoToReferences<CR>
 nnoremap <leader>; :YcmCompleter GoTo<CR>
 nnoremap <leader>d :YcmCompleter GetDoc<CR>
+nnoremap <leader>f :YcmCompleter FixIt<CR>
 nmap <D-CR> <plug>(YCMHover)
 nnoremap <leader>c :pclose<CR>
+nnoremap <leader>r :YcmCompleter RefactorRename 
 
 " Navigation in jumplist
 nnoremap <leader>o <C-O>
