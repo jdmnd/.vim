@@ -300,6 +300,7 @@ let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'python': ['mypy', 'pylint'],
 \   'rust': ['cargo', 'analyzer'],
+\   'scss': ['stylelint'],
 \   'typescript': ['eslint', 'tsserver'],
 \   'typescriptreact': ['eslint', 'tsserver']
 \}
@@ -310,6 +311,7 @@ let g:ale_fixers = {
 \   'javascript': ['prettier'],
 \   'python': ['isort', 'black'],
 \   'rust': ['rustfmt'],
+\   'scss': ['prettier'],
 \   'typescript': ['prettier'],
 \   'typescriptreact': ['prettier']
 \}
